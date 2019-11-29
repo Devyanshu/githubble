@@ -15,14 +15,16 @@ def home():
 def process():
     data = dict(request.form)
     usr = User(data['username'])
+    # usr.get_details()
     try:
         usr.get_details()
     except NameError:
-        return {'error': 'We do not process enterprise account at the moment.'}
+        return {'error': 'Organization accounts are not processed at the moment.'}
     except:
         return {'error': 'Username not valid'}
     else:
         return {'value': helper(usr)}
+
 
 def sing_or_plural(value, text):
         value = int(value)
@@ -41,15 +43,25 @@ def helper(user_ob):
     html+='<tr><td>{}</td><td>\t{}</td></tr>'.format('Repositories', user_ob.repoCount)
     html+='''</table>The below stats are for last {} days<table class='table'>'''.format(total_days)
     html+='<tr><td>{} </td><td>\t{}</td></tr>'.format('Commits', user_ob.commits_last_year)    
+    if user_ob.longest_streak['length']<=1:
+        duration = ''
+    else:
+        duration = '''(From {} to {})'''.format(user_ob.longest_streak['start'], user_ob.longest_streak['end'])
 
     html+='<tr><td>{} </td><td>\t{} {}</td></tr>'.format('Days contributed', user_ob.days_contributed, sing_or_plural(user_ob.days_contributed, 'day'))
-    html+='<tr><td>{}</td><td>\t{} {}</td></tr>'.format('Longest contributing streak', user_ob.longest_streak, sing_or_plural(user_ob.longest_streak, 'day'))
+    html+='<tr><td>{}</td><td>\t{} {}</td></tr>'.format('Longest gap in contribution', user_ob.longest_gap, sing_or_plural(user_ob.longest_gap, 'day'))
+    html+='<tr><td>{}</td><td>\t{} {} {}</td></tr>'.format('Longest contributing streak', user_ob.longest_streak['length'], sing_or_plural(user_ob.longest_streak['length'], 'day'), duration)
+    if user_ob.longest_streak['avg_commits']>=2:
+        html+='<tr><td>{}</td><td>\t{} {}</td></tr>'.format('Average commits during longest streak', user_ob.longest_streak['avg_commits'], '/day')
     max_activity_day = list(user_ob.top_five_activity.keys())[0]
     max_activity = user_ob.top_five_activity[max_activity_day]
     max_activity_day = "-".join(max_activity_day.split('-')[::-1])
-    html+='<tr><td>{}</td><td>\t{} {} ({})</td></tr>'.format('Maximum commits in a day', max_activity, sing_or_plural(max_activity, 'commit'), max_activity_day)
+    if max_activity:
+        html+='<tr><td>{}</td><td>\t{} {} ({})</td></tr>'.format('Maximum commits in a day', max_activity, sing_or_plural(max_activity, 'commit'), max_activity_day)
+    else:
+        html+='<tr><td>{}</td><td>\t{} {}</td></tr>'.format('Maximum commits in a day', max_activity, sing_or_plural(max_activity, 'commit'))
     html+='</table></table>'
     return html
 
 if __name__ == "__main__":
-    app.run(port=8000)
+    app.run(port=5555)
