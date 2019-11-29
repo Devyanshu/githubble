@@ -82,13 +82,10 @@ class User:
     def find_longest_streak(self, activity):
         max_streak = 0
         curr_streak = 0
-        st = ''
-        end = ''
         for ii in activity:
             if activity[ii]:
                 curr_streak += 1
             else:
-                end
                 max_streak = max(max_streak, curr_streak)
                 curr_streak = 0
         self.longest_streak = max_streak
