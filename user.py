@@ -9,12 +9,13 @@ class User:
         baseUrl = 'https://github.com/'
         self.url = baseUrl + self.username
         self.name = None
-        self.repoCount = None
-        self.commits_last_year = None
+        self.repoCount = 0
+        self.commits_last_year = 0
         self.avatarUrl = None
         self.top_five_activity = {}
         self.days_contributed = 0
         self.days_not_contributed = 0
+        self.longest_streak = 0
 
     def get_details(self):        
         content = urlopen(self.url).read()
@@ -42,8 +43,9 @@ class User:
         h2s = data.findAll('h2')
         for h2 in h2s: 
             try:
-                if 'contributions' in h2.text:
-                    self.commits_last_year = int(h2.text.strip('\n').strip().split(' ')[0])
+                if 'contribution' in h2.text:
+                    self.commits_last_year = h2.text.strip('\n').strip().split(' ')[0]
+                    break
             except:
                 continue
         activity = {}
@@ -54,6 +56,7 @@ class User:
             except:
                 continue
         self.days_activity(activity)
+        self.find_longest_streak(activity)
         lst = sorted(activity.keys(), key=activity.get, reverse=True)
         self.top_five_activity = {i:activity[i] for i in lst[:5]}
 
@@ -70,6 +73,21 @@ class User:
     def print_all(self):
         det = '{}\n{}\n{}\n{}\n{}\n{}\n{}'.format(self.name, self.repoCount, self.top_five_activity, self.commits_last_year,self.avatarUrl, self.days_contributed, self.days_not_contributed)
         print(det)
+        return ''
+
+    def find_longest_streak(self, activity):
+        max_streak = 0
+        curr_streak = 0
+        st = ''
+        end = ''
+        for ii in activity:
+            if activity[ii]:
+                curr_streak += 1
+            else:
+                end
+                max_streak = max(max_streak, curr_streak)
+                curr_streak = 0
+        self.longest_streak = max_streak
 
 if __name__ == '__main__':
     test = User('Devyanshu')
