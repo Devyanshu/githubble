@@ -17,6 +17,8 @@ def process():
     usr = User(data['username'])
     try:
         usr.get_details()
+    except NameError:
+        return {'error': 'We do not process enterprise account at the moment.'}
     except:
         return {'error': 'Username not valid'}
     else:

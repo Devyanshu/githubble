@@ -9,7 +9,7 @@ class User:
         baseUrl = 'https://github.com/'
         self.url = baseUrl + self.username
         self.name = None
-        self.repoCount = 0
+        self.repoCount = None
         self.commits_last_year = 0
         self.avatarUrl = None
         self.top_five_activity = {}
@@ -59,6 +59,9 @@ class User:
         self.find_longest_streak(activity)
         lst = sorted(activity.keys(), key=activity.get, reverse=True)
         self.top_five_activity = {i:activity[i] for i in lst[:5]}
+        if self.name == None:
+            raise NameError('enterprise account')
+
 
     def days_activity(self, activity):
         nc, c = 0, 0
@@ -69,6 +72,7 @@ class User:
                 c += 1
         self.days_contributed = c
         self.days_not_contributed = nc
+
 
     def print_all(self):
         det = '{}\n{}\n{}\n{}\n{}\n{}\n{}'.format(self.name, self.repoCount, self.top_five_activity, self.commits_last_year,self.avatarUrl, self.days_contributed, self.days_not_contributed)
