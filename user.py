@@ -2,6 +2,7 @@ from urllib.request import urlopen
 import bs4 as bs
 import re
 
+
 class User:
 
     def __init__(self, username):
@@ -18,11 +19,11 @@ class User:
         self.longest_streak = {}
         self.longest_gap = 0
 
-    def get_details(self):        
+    def get_details(self):
         content = urlopen(self.url).read()
-        data = bs.BeautifulSoup(content,'lxml')
+        data = bs.BeautifulSoup(content, 'lxml')
         images = data.findAll('img')
-        for img in images: 
+        for img in images:
             if ("avatar" in img["class"] and img['src'] != ''):
                 self.avatarUrl = img['src']
                 break
@@ -30,7 +31,7 @@ class User:
         for span in spans:
             try:
                 if span["itemprop"] == 'name':
-                    self.name = span.text                
+                    self.name = span.text
             except:
                 continue
         if self.name == None:
@@ -40,22 +41,24 @@ class User:
         for span in spans:
             try:
                 if 'Counter' in span["class"]:
-                    self.repoCount = span.text.strip(' ').strip('\n').strip(' ')
+                    self.repoCount = span.text.strip(
+                        ' ').strip('\n').strip(' ')
                     # add checks for stars, followers and following here.
-                    break            
+                    break
             except:
                 continue
         h2s = data.findAll('h2')
-        for h2 in h2s: 
+        for h2 in h2s:
             try:
                 if 'contribution' in h2.text:
-                    self.commits_last_year = h2.text.strip('\n').strip().split(' ')[0]
+                    self.commits_last_year = h2.text.strip(
+                        '\n').strip().split(' ')[0]
                     break
             except:
                 continue
         activity = {}
         rects = data.findAll('rect')
-        for rect in rects: 
+        for rect in rects:
             try:
                 activity[rect['data-date']] = int(rect['data-count'])
             except:
@@ -64,9 +67,7 @@ class User:
         self.find_longest_streak(activity)
         self.find_longest_gap(activity)
         lst = sorted(activity.keys(), key=activity.get, reverse=True)
-        self.top_five_activity = {i:activity[i] for i in lst[:5]}
-        
-
+        self.top_five_activity = {i: activity[i] for i in lst[:5]}
 
     def days_activity(self, activity):
         nc, c = 0, 0
@@ -78,11 +79,12 @@ class User:
         self.days_contributed = c
         self.days_not_contributed = nc
 
-
     def print_all(self):
-        det = '{}\n{}\n{}\n{}\n{}\n{}\n{}'.format(self.name, self.repoCount, self.top_five_activity, self.commits_last_year,self.avatarUrl, self.days_contributed, self.days_not_contributed)
+        det = '{}\n{}\n{}\n{}\n{}\n{}\n{}'.format(self.name, self.repoCount, self.top_five_activity,
+                                                  self.commits_last_year, self.avatarUrl, self.days_contributed, self.days_not_contributed)
         print(det)
         return ''
+
     def find_longest_gap(self, activity):
         max_gap = 0
         curr_gap = 0
@@ -108,18 +110,27 @@ class User:
                     streak_end = ii
                 max_streak = max(max_streak, curr_streak)
                 curr_streak = 0
-        l_streak = max_streak
-        keys = list(activity.keys())
-        streak_start = keys[keys.index(streak_end) - l_streak]
-        streak_end = keys[keys.index(streak_end)-1]
-        streak_sum = sum(list(activity.values())[keys.index(streak_start):keys.index(streak_end)+1])
+
+        l_streak = max(max_streak, curr_streak)
+        if l_streak == curr_streak:
+            streak_end = ii
+            keys = list(activity.keys())
+            streak_start = keys[keys.index(streak_end) - l_streak + 1]
+            streak_end = keys[keys.index(streak_end)]
+            streak_sum = sum(list(activity.values())[
+                keys.index(streak_start):keys.index(streak_end)+1])
+        else:
+            keys = list(activity.keys())
+            streak_start = keys[keys.index(streak_end) - l_streak]
+            streak_end = keys[keys.index(streak_end)-1]
+            streak_sum = sum(list(activity.values())[
+                keys.index(streak_start):keys.index(streak_end)+1])
         self.longest_streak = {
             'length': l_streak,
-            'avg_commits': 0 if l_streak==0 else round(streak_sum/l_streak, 2),
+            'avg_commits': 0 if l_streak == 0 else round(streak_sum/l_streak, 2),
             'start': "-".join(streak_start.split('-')[::-1]),
             'end': "-".join(streak_end.split('-')[::-1])
         }
-
 
 
 if __name__ == '__main__':
