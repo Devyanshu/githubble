@@ -115,7 +115,11 @@
             </div>
         </form>
 
-        <div class="showres" id="result"></div>
+        <div class="showres" id="result">
+            {% if data %}
+            {% autoescape off %} {{data}} {%endautoescape%}
+            {% endif %}
+        </div>
         <div class="showres" id="error"></div>
     </div>
 
