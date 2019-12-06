@@ -38,6 +38,7 @@ def process():
     else:
         return {'value': helper(usr)}
 
+
 def sing_or_plural(value, text):
     value = int(value)
     if value == 0:
@@ -62,7 +63,7 @@ def helper(user_ob):
         html += '<tr><td>{} </td><td>\t{}</td></tr>'.format(
             'Last contribution', user_ob.last_contribution)
     html += '<tr><td>{} </td><td>\t{}</td></tr>'.format(
-        'Commits', user_ob.commits_last_year)
+        'Total contributions', user_ob.commits_last_year)
     if user_ob.longest_streak['length'] <= 1:
         duration = ''
     else:
@@ -77,16 +78,16 @@ def helper(user_ob):
         'Longest contributing streak', user_ob.longest_streak['length'], sing_or_plural(user_ob.longest_streak['length'], 'day'), duration)
     if user_ob.longest_streak['avg_commits'] >= 2:
         html += '<tr><td>{}</td><td>\t{} {}</td></tr>'.format(
-            'Average commits during longest streak', user_ob.longest_streak['avg_commits'], '/day')
+            'Average contributions during longest streak', user_ob.longest_streak['avg_commits'], '/day')
     max_activity_day = list(user_ob.top_five_activity.keys())[0]
     max_activity = user_ob.top_five_activity[max_activity_day]
     max_activity_day = "-".join(max_activity_day.split('-')[::-1])
     if max_activity:
         html += '<tr><td>{}</td><td>\t{} {} ({})</td></tr>'.format(
-            'Maximum commits in a day', max_activity, sing_or_plural(max_activity, 'commit'), max_activity_day)
+            'Maximum contributions in a day', max_activity, sing_or_plural(max_activity, 'commit'), max_activity_day)
     else:
         html += '<tr><td>{}</td><td>\t{} {}</td></tr>'.format(
-            'Maximum commits in a day', max_activity, sing_or_plural(max_activity, 'commit'))
+            'Maximum contributions in a day', max_activity, sing_or_plural(max_activity, 'commit'))
     html += '</table></table>'
     return html
 

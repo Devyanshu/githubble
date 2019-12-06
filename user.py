@@ -2,7 +2,7 @@ from urllib.request import urlopen
 import bs4 as bs
 import re
 import datetime
-
+import calendar
 
 class User:
 
@@ -20,6 +20,7 @@ class User:
         self.longest_streak = {}
         self.longest_gap = 0
         self.last_contribution = ''
+        self.weekday_wise_contributions = {}
 
     def get_details(self):
         content = urlopen(self.url).read()
@@ -71,6 +72,7 @@ class User:
         self.find_last_contribution(activity)
         lst = sorted(activity.keys(), key=activity.get, reverse=True)
         self.top_five_activity = {i: activity[i] for i in lst[:5]}
+        self.find_weekday_wise(activity)
 
     def days_activity(self, activity):
         nc, c = 0, 0
@@ -156,6 +158,16 @@ class User:
                 self.last_contribution = text
         else:
             self.last_contribution = ''
+
+    def find_weekday_wise(self, activity):
+        dct = {}
+        days = list(activity.keys())
+        for i in days:
+            weekday = datetime.datetime.strptime(i, '%Y-%m-%d').weekday() 
+            weekday = calendar.day_name[weekday]
+            dct[weekday] = dct.get(weekday, 0) + activity[i]
+        self.weekday_wise_contributions = dct
+
 
 if __name__ == '__main__':
     test = User('Devyanshu')
