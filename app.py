@@ -38,7 +38,6 @@ def process():
     else:
         return {'value': helper(usr)}
 
-
 def sing_or_plural(value, text):
     value = int(value)
     if value == 0:
@@ -59,6 +58,9 @@ def helper(user_ob):
         'Repositories', user_ob.repoCount)
     html += '''</table>The below stats are for last {} days<table class='table'>'''.format(
         total_days)
+    if user_ob.last_contribution:
+        html += '<tr><td>{} </td><td>\t{}</td></tr>'.format(
+            'Last contribution', user_ob.last_contribution)
     html += '<tr><td>{} </td><td>\t{}</td></tr>'.format(
         'Commits', user_ob.commits_last_year)
     if user_ob.longest_streak['length'] <= 1:

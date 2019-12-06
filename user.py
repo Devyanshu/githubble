@@ -1,6 +1,7 @@
 from urllib.request import urlopen
 import bs4 as bs
 import re
+import datetime
 
 
 class User:
@@ -18,6 +19,7 @@ class User:
         self.days_not_contributed = 0
         self.longest_streak = {}
         self.longest_gap = 0
+        self.last_contribution = ''
 
     def get_details(self):
         content = urlopen(self.url).read()
@@ -66,6 +68,7 @@ class User:
         self.days_activity(activity)
         self.find_longest_streak(activity)
         self.find_longest_gap(activity)
+        self.find_last_contribution(activity)
         lst = sorted(activity.keys(), key=activity.get, reverse=True)
         self.top_five_activity = {i: activity[i] for i in lst[:5]}
 
@@ -96,6 +99,7 @@ class User:
                 curr_gap = 0
         self.longest_gap = max_gap
 
+
     def find_longest_streak(self, activity):
         streak_sum = 0
         max_streak = 0
@@ -112,7 +116,7 @@ class User:
                 curr_streak = 0
 
         l_streak = max(max_streak, curr_streak)
-        if l_streak == curr_streak:
+        if l_streak == curr_streak and l_streak !=0:
             streak_end = ii
             keys = list(activity.keys())
             streak_start = keys[keys.index(streak_end) - l_streak + 1]
@@ -132,6 +136,26 @@ class User:
             'end': "-".join(streak_end.split('-')[::-1])
         }
 
+
+    def find_last_contribution(self, activity):
+        day = ''
+        for i in list(activity.keys())[::-1]:
+            if activity[i] != 0:
+                day = i
+                break
+    
+        if day:
+            today = datetime.date.today()
+            query = datetime.date(*list(map(int, day.split('-'))))
+            delta = today - query
+            if delta.days == 0:
+                self.last_contribution = 'Today, {}'.format('-'.join(day.split('-')[::-1]))
+            else:
+                plu_sing = 'day' if delta.days == 1 else 'days'
+                text = '{} {} ago, {}'.format(int(delta.days), plu_sing, '-'.join(day.split('-')[::-1]))
+                self.last_contribution = text
+        else:
+            self.last_contribution = ''
 
 if __name__ == '__main__':
     test = User('Devyanshu')
