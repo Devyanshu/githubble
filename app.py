@@ -36,7 +36,7 @@ def process():
     except:
         return {'error': 'Username not valid'}
     else:
-        return {'value': helper(usr)}
+        return {'value': helper(usr), 'map': get_map(usr)}
 
 
 def sing_or_plural(value, text):
@@ -91,6 +91,31 @@ def helper(user_ob):
     html += '</table></table>'
     return html
 
+
+def get_map(user_ob):
+    lst = []
+    flag = False
+    temp = user_ob.weekday_wise_contributions
+    if any(list(temp.values())):
+        flag = True
+
+    for ii in temp:
+        lst.append({
+            'value': temp[ii],
+            'day': ii
+        })
+
+    dct = {
+        'element': 'data-plot',
+        'data': lst,
+        'xkey': 'day',
+        'ykeys': ['value'],
+        'barColors': ['#000000'],
+        'hideHover': 'auto',
+        'gridLineColor: '#eef0f2',
+        'resize': 'true'
+    }
+    return {'data': dct, 'flag': flag}
 
 if __name__ == "__main__":
     app.run(port=5555)
