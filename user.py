@@ -150,11 +150,13 @@ class User:
             today = datetime.date.today()
             query = datetime.date(*list(map(int, day.split('-'))))
             delta = today - query
+            
             if delta.days == 0:
                 self.last_contribution = 'Today, {}'.format('-'.join(day.split('-')[::-1]))
+            elif delta.days == 1:
+                self.last_contribution = 'Yesterday, {}'.format('-'.join(day.split('-')[::-1]))
             else:
-                plu_sing = 'day' if delta.days == 1 else 'days'
-                text = '{} {} ago, {}'.format(int(delta.days), plu_sing, '-'.join(day.split('-')[::-1]))
+                text = '{} {} ago, {}'.format(int(delta.days), 'days', '-'.join(day.split('-')[::-1]))
                 self.last_contribution = text
         else:
             self.last_contribution = ''

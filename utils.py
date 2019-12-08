@@ -51,7 +51,6 @@ def helper(user_ob):
     html += '</table></table>'
     return html
 
-
 def get_map(user_ob):
     lst = []
     flag = False
@@ -77,6 +76,11 @@ def get_map(user_ob):
         'resize': 'true'
     }
     return {'data': dct, 'flag': flag}
+
+
+
+
+
 
 
 if __name__ == "__main__":
