@@ -10,6 +10,8 @@
 - Average commits during the above streak
 - Maximum commits in a day, in the last year
 - Day wise breakup of contributions
+- Month wise breakup of contributions
+
 
 ### Help improving the UI
 If you want to help in improving the UI of the site, please do so and make a PR.
