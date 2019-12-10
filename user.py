@@ -21,6 +21,7 @@ class User:
         self.longest_gap = 0
         self.last_contribution = ''
         self.weekday_wise_contributions = {}
+        self.month_wise_contributions = {}
 
     def get_details(self):
         content = urlopen(self.url).read()
@@ -73,6 +74,8 @@ class User:
         lst = sorted(activity.keys(), key=activity.get, reverse=True)
         self.top_five_activity = {i: activity[i] for i in lst[:5]}
         self.find_weekday_wise(activity)
+        self.find_month_wise(activity)
+        
 
     def days_activity(self, activity):
         nc, c = 0, 0
@@ -86,7 +89,7 @@ class User:
 
     def print_all(self):
         det = '{}\n{}\n{}\n{}\n{}\n{}\n{}'.format(self.name, self.repoCount, self.top_five_activity,
-                                                  self.commits_last_year, self.avatarUrl, self.days_contributed, self.days_not_contributed)
+                                                self.commits_last_year, self.avatarUrl, self.days_contributed, self.days_not_contributed)
         print(det)
         return ''
 
@@ -169,6 +172,19 @@ class User:
             weekday = calendar.day_name[weekday]
             dct[weekday] = dct.get(weekday, 0) + activity[i]
         self.weekday_wise_contributions = dct
+
+    def find_month_wise(self, activity):
+        months = {'01':'January', '02':'February', '03':'March', '04':'April', '05':'May',
+            '06':'June', '07':'July', '08':'August', '09':'September', '10':'October',
+            '11':'November', '12':'December'}
+
+        dct = {}
+        days = list(activity.keys())
+        for i in days:
+            y, m, _ = i.split('-')
+            text = months[m] + " '" + y[-2:]  
+            dct[text] = dct.get(text, 0) + activity[i]
+        self.month_wise_contributions = dct
 
 
 if __name__ == '__main__':

@@ -51,7 +51,7 @@ def helper(user_ob):
     html += '</table></table>'
     return html
 
-def get_map(user_ob):
+def get_weekwise(user_ob):
     lst = []
     flag = False
     temp = user_ob.weekday_wise_contributions
@@ -65,7 +65,7 @@ def get_map(user_ob):
         })
 
     dct = {
-        'element': 'data-plot',
+        'element': 'data-plot-days',
         'data': lst,
         'xkey': 'day',
         'ykeys': ['value'],
@@ -78,6 +78,31 @@ def get_map(user_ob):
     return {'data': dct, 'flag': flag}
 
 
+def get_monthwise(user_ob):
+    lst = []
+    flag = False
+    temp = user_ob.month_wise_contributions
+    if any(list(temp.values())):
+        flag = True
+
+    for ii in temp:
+        lst.append({
+            'value': temp[ii],
+            'month': ii
+        })
+
+    dct = {
+        'element': 'data-plot-months',
+        'data': lst,
+        'xkey': 'month',
+        'ykeys': ['value'],
+        'barColors': ['#000000'],
+        'hideHover': 'auto',
+        'gridLineColor: '#eef0f2',
+        'lineWidth': 1,
+        'resize': 'true'
+    }
+    return {'data': dct, 'flag': flag}
 
 
 

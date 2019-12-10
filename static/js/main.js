@@ -6,13 +6,16 @@ function off() {
     document.getElementById("overlay").style.display = "none";
 }
 $(document).ready(function () {
-    $("#plot").hide();
+    $("#days-plot").hide();
+    $("#months-plot").hide();
     $('#subuser').on('submit', function (event) {
         on();
         $("#result").html('');
         $("#error").html('');
-        $("#plot").html('');
-        $("#plot").hide();
+        $("#days-plot").html('');
+        $("#days-plot").hide();
+        $("#months-plot").html('');
+        $("#months-plot").hide();
         $.ajax({
             data: {
                 username: $("#username").val(),
@@ -32,11 +35,18 @@ $(document).ready(function () {
                     $("#result").html(show);
 
                 }
-                if (data.map) {
-                    if (data.map.flag) {
-                        $("#plot").html('<div><h4 style="text-align: center"> Day wise contributions </h4><div id="data-plot"></div></div>')
-                        $("#plot").show();
-                        Morris.Bar(data.map.data);
+                if (data.days) {
+                    if (data.days.flag) {
+                        $("#days-plot").html('<div><h4 style="text-align: center"> Day wise contributions </h4><div id="data-plot-days"></div></div>')
+                        $("#days-plot").show();
+                        Morris.Bar(data.days.data);
+                    }
+                }
+                if (data.months) {
+                    if (data.months.flag) {
+                        $("#months-plot").html('<div><h4 style="text-align: center"> Month wise contributions </h4><div id="data-plot-months"></div></div>')
+                        $("#months-plot").show();
+                        Morris.Bar(data.months.data);
                     }
                 }
             });
