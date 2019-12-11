@@ -1,5 +1,5 @@
 // Dashboard 1 Morris-chart
-$(function() {
+$(function () {
     "use strict";
     // Morris bar chart
     Morris.Bar({
@@ -54,45 +54,45 @@ $(function() {
         element: 'morris-line-chart',
         resize: true,
         data: [{
-                y: '2011 Q1',
-                item1: 3588
-            },
-            {
-                y: '2011 Q2',
-                item1: 2545
-            },
-            {
-                y: '2011 Q3',
-                item1: 8441
-            },
-            {
-                y: '2011 Q4',
-                item1: 14474
-            },
-            {
-                y: '2012 Q1',
-                item1: 9874
-            },
-            {
-                y: '2012 Q2',
-                item1: 6487
-            },
-            {
-                y: '2012 Q3',
-                item1: 14487
-            },
-            {
-                y: '2012 Q4',
-                item1: 2147
-            },
-            {
-                y: '2013 Q1',
-                item1: 5748
-            },
-            {
-                y: '2013 Q2',
-                item1: 3598
-            }
+            y: '2011 Q1',
+            item1: 3588
+        },
+        {
+            y: '2011 Q2',
+            item1: 2545
+        },
+        {
+            y: '2011 Q3',
+            item1: 8441
+        },
+        {
+            y: '2011 Q4',
+            item1: 14474
+        },
+        {
+            y: '2012 Q1',
+            item1: 9874
+        },
+        {
+            y: '2012 Q2',
+            item1: 6487
+        },
+        {
+            y: '2012 Q3',
+            item1: 14487
+        },
+        {
+            y: '2012 Q4',
+            item1: 2147
+        },
+        {
+            y: '2013 Q1',
+            item1: 5748
+        },
+        {
+            y: '2013 Q2',
+            item1: 3598
+        }
         ],
         xkey: 'y',
         ykeys: ['item1'],
@@ -129,41 +129,41 @@ $(function() {
     Morris.Area({
         element: 'extra-area-chart',
         data: [{
-                period: '2001',
-                smartphone: 0,
-                windows: 0,
-                mac: 0
-            }, {
-                period: '2002',
-                smartphone: 150,
-                windows: 80,
-                mac: 120
-            }, {
-                period: '2003',
-                smartphone: 40,
-                windows: 80,
-                mac: 35
-            }, {
-                period: '2004',
-                smartphone: 30,
-                windows: 47,
-                mac: 17
-            }, {
-                period: '2005',
-                smartphone: 100,
-                windows: 40,
-                mac: 20
-            }, {
-                period: '2006',
-                smartphone: 25,
-                windows: 80,
-                mac: 40
-            }, {
-                period: '2007',
-                smartphone: 10,
-                windows: 10,
-                mac: 10
-            }
+            period: '2001',
+            smartphone: 0,
+            windows: 0,
+            mac: 0
+        }, {
+            period: '2002',
+            smartphone: 150,
+            windows: 80,
+            mac: 120
+        }, {
+            period: '2003',
+            smartphone: 40,
+            windows: 80,
+            mac: 35
+        }, {
+            period: '2004',
+            smartphone: 30,
+            windows: 47,
+            mac: 17
+        }, {
+            period: '2005',
+            smartphone: 100,
+            windows: 40,
+            mac: 20
+        }, {
+            period: '2006',
+            smartphone: 25,
+            windows: 80,
+            mac: 40
+        }, {
+            period: '2007',
+            smartphone: 10,
+            windows: 10,
+            mac: 10
+        }
 
 
         ],
@@ -183,41 +183,41 @@ $(function() {
     Morris.Area({
         element: 'morris-area-chart',
         data: [{
-                period: '2001',
-                smartphone: 0,
-                windows: 0,
-                mac: 0
-            }, {
-                period: '2002',
-                smartphone: 90,
-                windows: 60,
-                mac: 25
-            }, {
-                period: '2003',
-                smartphone: 40,
-                windows: 80,
-                mac: 35
-            }, {
-                period: '2004',
-                smartphone: 30,
-                windows: 47,
-                mac: 17
-            }, {
-                period: '2005',
-                smartphone: 150,
-                windows: 40,
-                mac: 120
-            }, {
-                period: '2006',
-                smartphone: 25,
-                windows: 80,
-                mac: 40
-            }, {
-                period: '2007',
-                smartphone: 10,
-                windows: 10,
-                mac: 10
-            }
+            period: '2001',
+            smartphone: 0,
+            windows: 0,
+            mac: 0
+        }, {
+            period: '2002',
+            smartphone: 90,
+            windows: 60,
+            mac: 25
+        }, {
+            period: '2003',
+            smartphone: 40,
+            windows: 80,
+            mac: 35
+        }, {
+            period: '2004',
+            smartphone: 30,
+            windows: 47,
+            mac: 17
+        }, {
+            period: '2005',
+            smartphone: 150,
+            windows: 40,
+            mac: 120
+        }, {
+            period: '2006',
+            smartphone: 25,
+            windows: 80,
+            mac: 40
+        }, {
+            period: '2007',
+            smartphone: 10,
+            windows: 10,
+            mac: 10
+        }
 
 
         ],
@@ -239,42 +239,42 @@ $(function() {
     Morris.Area({
         element: 'morris-area-chart2',
         data: [{
-                period: '2010',
-                SiteA: 0,
-                SiteB: 0,
+            period: '2010',
+            SiteA: 0,
+            SiteB: 0,
 
-            }, {
-                period: '2011',
-                SiteA: 170,
-                SiteB: 140,
+        }, {
+            period: '2011',
+            SiteA: 170,
+            SiteB: 140,
 
-            }, {
-                period: '2012',
-                SiteA: 110,
-                SiteB: 80,
+        }, {
+            period: '2012',
+            SiteA: 110,
+            SiteB: 80,
 
-            }, {
-                period: '2013',
-                SiteA: 150,
-                SiteB: 100,
+        }, {
+            period: '2013',
+            SiteA: 150,
+            SiteB: 100,
 
-            }, {
-                period: '2014',
-                SiteA: 250,
-                SiteB: 200,
+        }, {
+            period: '2014',
+            SiteA: 250,
+            SiteB: 200,
 
-            }, {
-                period: '2015',
-                SiteA: 80,
-                SiteB: 120,
+        }, {
+            period: '2015',
+            SiteA: 80,
+            SiteB: 120,
 
-            },
-            {
-                period: '2016',
-                SiteA: 200,
-                SiteB: 180,
+        },
+        {
+            period: '2016',
+            SiteA: 200,
+            SiteB: 180,
 
-            }
+        }
         ],
         xkey: 'period',
         ykeys: ['SiteA', 'SiteB'],

@@ -51,6 +51,7 @@ def helper(user_ob):
     html += '</table></table>'
     return html
 
+
 def get_weekwise(user_ob):
     lst = []
     flag = False
@@ -69,9 +70,10 @@ def get_weekwise(user_ob):
         'data': lst,
         'xkey': 'day',
         'ykeys': ['value'],
+        # 'labels': list(temp.keys()),
         'barColors': ['#000000'],
         'hideHover': 'auto',
-        'gridLineColor: '#eef0f2',
+        'gridLineColor: '  # eef0f2',
         'lineWidth': 1,
         'resize': 'true'
     }
@@ -96,16 +98,14 @@ def get_monthwise(user_ob):
         'data': lst,
         'xkey': 'month',
         'ykeys': ['value'],
+        # 'labels': list(temp.keys()),
         'barColors': ['#000000'],
         'hideHover': 'auto',
-        'gridLineColor: '#eef0f2',
+        'gridLineColor: '  # eef0f2',
         'lineWidth': 1,
         'resize': 'true'
     }
     return {'data': dct, 'flag': flag}
-
-
-
 
 
 if __name__ == "__main__":

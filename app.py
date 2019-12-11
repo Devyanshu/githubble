@@ -16,7 +16,8 @@ def home():
         try:
             usr.get_details()
         except NameError:
-            return render_template('index.html', data='Organization accounts are not processed at the moment.')
+            return render_template('index.html', data='Organization accounts \
+                are not processed at the moment.')
         except:
             return render_template('index.html', data='Username not valid')
         else:
@@ -29,20 +30,17 @@ def home():
 def process():
     data = dict(request.form)
     usr = User(data['username'])
-    usr.get_details()
+    # usr.get_details()
     try:
         usr.get_details()
     except NameError:
-        return {'error': 'Organization accounts are not processed at the moment.'}
+        return {'error': 'Organization accounts \
+            are not processed at the moment.'}
     except:
         return {'error': 'Username not valid'}
     else:
-        return {'value': helper(usr), 'days': get_weekwise(usr), 'months': get_monthwise(usr)}
-
-
-
-
-
+        return {'value': helper(usr), 'days': get_weekwise(usr),
+                'months': get_monthwise(usr)}
 
 
 if __name__ == "__main__":

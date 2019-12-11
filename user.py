@@ -4,6 +4,7 @@ import re
 import datetime
 import calendar
 
+
 class User:
 
     def __init__(self, username):
@@ -22,6 +23,7 @@ class User:
         self.last_contribution = ''
         self.weekday_wise_contributions = {}
         self.month_wise_contributions = {}
+        self.repos = {}
 
     def get_details(self):
         content = urlopen(self.url).read()
@@ -38,7 +40,7 @@ class User:
                     self.name = span.text
             except:
                 continue
-        if self.name == None:
+        if self.name is None:
             raise NameError('enterprise account')
         if self.name == '':
             self.name = '(Name not provided)'
@@ -67,6 +69,7 @@ class User:
                 activity[rect['data-date']] = int(rect['data-count'])
             except:
                 continue
+
         self.days_activity(activity)
         self.find_longest_streak(activity)
         self.find_longest_gap(activity)
@@ -75,7 +78,6 @@ class User:
         self.top_five_activity = {i: activity[i] for i in lst[:5]}
         self.find_weekday_wise(activity)
         self.find_month_wise(activity)
-        
 
     def days_activity(self, activity):
         nc, c = 0, 0
@@ -88,8 +90,12 @@ class User:
         self.days_not_contributed = nc
 
     def print_all(self):
-        det = '{}\n{}\n{}\n{}\n{}\n{}\n{}'.format(self.name, self.repoCount, self.top_five_activity,
-                                                self.commits_last_year, self.avatarUrl, self.days_contributed, self.days_not_contributed)
+        det = '{}\n{}\n{}\n{}\n{}\n{}\n{}'.format(self.name, self.repoCount,
+                                                  self.top_five_activity,
+                                                  self.commits_last_year,
+                                                  self.avatarUrl,
+                                                  self.days_contributed,
+                                                  self.days_not_contributed)
         print(det)
         return ''
 
@@ -103,7 +109,6 @@ class User:
                 max_gap = max(max_gap, curr_gap)
                 curr_gap = 0
         self.longest_gap = max_gap
-
 
     def find_longest_streak(self, activity):
         streak_sum = 0
@@ -121,7 +126,7 @@ class User:
                 curr_streak = 0
 
         l_streak = max(max_streak, curr_streak)
-        if l_streak == curr_streak and l_streak !=0:
+        if l_streak == curr_streak and l_streak != 0:
             streak_end = ii
             keys = list(activity.keys())
             streak_start = keys[keys.index(streak_end) - l_streak + 1]
@@ -141,25 +146,27 @@ class User:
             'end': "-".join(streak_end.split('-')[::-1])
         }
 
-
     def find_last_contribution(self, activity):
         day = ''
         for i in list(activity.keys())[::-1]:
             if activity[i] != 0:
                 day = i
                 break
-    
+
         if day:
             today = datetime.date.today()
             query = datetime.date(*list(map(int, day.split('-'))))
             delta = today - query
-            
+
             if delta.days == 0:
-                self.last_contribution = 'Today, {}'.format('-'.join(day.split('-')[::-1]))
+                self.last_contribution = 'Today, {}'.format(
+                    '-'.join(day.split('-')[::-1]))
             elif delta.days == 1:
-                self.last_contribution = 'Yesterday, {}'.format('-'.join(day.split('-')[::-1]))
+                self.last_contribution = 'Yesterday, {}'.format(
+                    '-'.join(day.split('-')[::-1]))
             else:
-                text = '{} {} ago, {}'.format(int(delta.days), 'days', '-'.join(day.split('-')[::-1]))
+                text = '{} {} ago, {}'.format(
+                    int(delta.days), 'days', '-'.join(day.split('-')[::-1]))
                 self.last_contribution = text
         else:
             self.last_contribution = ''
@@ -168,26 +175,26 @@ class User:
         dct = {}
         days = list(activity.keys())
         for i in days:
-            weekday = datetime.datetime.strptime(i, '%Y-%m-%d').weekday() 
+            weekday = datetime.datetime.strptime(i, '%Y-%m-%d').weekday()
             weekday = calendar.day_name[weekday]
             dct[weekday] = dct.get(weekday, 0) + activity[i]
         self.weekday_wise_contributions = dct
 
     def find_month_wise(self, activity):
-        months = {'01':'Jan', '02':'Feb', '03':'Mar', '04':'April', '05':'May',
-            '06':'June', '07':'July', '08':'Aug', '09':'Sep', '10':'Oct',
-            '11':'Nov', '12':'Dec'}
+        months = {'01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'April',
+                  '05': 'May', '06': 'June', '07': 'July', '08': 'Aug',
+                  '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'}
 
         dct = {}
         days = list(activity.keys())
         for i in days:
             y, m, _ = i.split('-')
-            text = months[m] + " '" + y[-2:]  
+            text = months[m] + " '" + y[-2:]
             dct[text] = dct.get(text, 0) + activity[i]
         self.month_wise_contributions = dct
 
 
 if __name__ == '__main__':
     test = User('Devyanshu')
-    test.get_details()
-    test.print_all()
+    # test.get_details()
+    # test.print_all()
