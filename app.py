@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, escape
 from user import User
 from utils import helper, get_weekwise, sing_or_plural, get_monthwise
-
 app = Flask(__name__, static_url_path='/static')
 
 app.debug = True
@@ -44,4 +43,4 @@ def process():
 
 
 if __name__ == "__main__":
-    app.run(port=5555)
+    app.run(port=5550)
