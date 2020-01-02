@@ -33,6 +33,9 @@ $(document).ready(function () {
         $("#streak").text('');
         $("#avg_commits").text('');
         $("#max_activity").text('');
+        $("#joined").text('');
+        $("#follwers").text('');
+        $("#following").text('');
 
         $.ajax({
             data: {
@@ -83,7 +86,9 @@ $(document).ready(function () {
                         const act_day = data.value.max_activity.day
                         $("#max_activity").text('Maximum ' + sing_plu(num, 'contribution', 'contributions') + ' on ' + act_day);
                     }
-
+                    $("#joined").text('Joined Github on ' + data.value.joined);
+                    $("#followers").text(data.value.followers + ' followers');
+                    $("#following").text(data.value.following + ' following');
                     $('#result').show();
                 }
                 if (data.days) {
