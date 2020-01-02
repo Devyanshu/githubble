@@ -9,20 +9,8 @@ app.secret_key = "nothingfornow"
 
 @app.route("/")
 def home():
-    args = dict(request.args)
-    if 'q' in args:
-        usr = User(args['q'])
-        try:
-            usr.get_details()
-        except NameError:
-            return render_template('index.html', data='Organization accounts \
-                are not processed at the moment.')
-        except:
-            return render_template('index.html', data='Username not valid')
-        else:
-            return render_template('index.html', data=helper(usr))
 
-    return render_template('index.html', data=None)
+    return render_template('index.html')
 
 
 @app.route("/data", methods=['POST'])

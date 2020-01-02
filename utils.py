@@ -10,15 +10,27 @@ def sing_or_plural(value, text):
 
 
 def helper(user_ob):
+    dct = {}
     total_days = user_ob.days_not_contributed + user_ob.days_contributed
+
+    dct['name'] = user_ob.name
+    dct['avatar'] = user_ob.avatarUrl
+    dct['repos'] = user_ob.repoCount
+    dct['total_days'] = total_days
+    dct['total_contribution'] = user_ob.commits_last_year
+    if user_ob.last_contribution:
+        dct['last_contribution'] = user_ob.last_contribution
+
     html = '''<div class='row'><div class='col-md-4'><img src="{}" height='300px' width='300px'></div>'''.format(
         user_ob.avatarUrl)
     html += "<div class='col-md-8'><table class='table'>"
     html += '<tr><td>{}</td><td>\t{}</td></tr>'.format('Name', user_ob.name)
+
     html += '<tr><td>{}</td><td>\t{}</td></tr>'.format(
         'Repositories', user_ob.repoCount)
     html += '''</table>The below stats are for last {} days<table class='table'>'''.format(
         total_days)
+
     if user_ob.last_contribution:
         html += '<tr><td>{} </td><td>\t{}</td></tr>'.format(
             'Last contribution', user_ob.last_contribution)
@@ -49,7 +61,7 @@ def helper(user_ob):
         html += '<tr><td>{}</td><td>\t{} {}</td></tr>'.format(
             'Maximum contributions in a day', max_activity, sing_or_plural(max_activity, 'commit'))
     html += '</table></table>'
-    return html
+    return dct
 
 
 def get_weekwise(user_ob):

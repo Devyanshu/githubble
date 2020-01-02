@@ -5,7 +5,15 @@ function on() {
 function off() {
     document.getElementById("overlay").style.display = "none";
 }
+
+function sing_plu(val, sing, plu) {
+    if (val == 1)
+        return '1 ' + sing;
+    else
+        return val + ' ' + plu;
+}
 $(document).ready(function () {
+    $("#avatar").hide();
     $("#days-plot").hide();
     $("#months-plot").hide();
     $('#subuser').on('submit', function (event) {
@@ -32,7 +40,15 @@ $(document).ready(function () {
                 else {
                     off();
                     var show = data.value;
-                    $("#result").html(show);
+                    $("#avatar").attr("src", data.value.avatar);
+                    $("#avatar").show();
+                    $("#name").text(data.value.name);
+
+                    var repos = data.value.repos;
+                    $("#repos").text(sing_plu(repos, 'repository', 'repositories'));
+                    var tc = data.value.total_contribution;
+                    $("#tc").text(sing_plu(tc, 'contribution', 'contributions'));
+                    // $("#result").html(show);
 
                 }
                 if (data.days) {
