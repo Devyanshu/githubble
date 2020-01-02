@@ -18,12 +18,17 @@ $(document).ready(function () {
     $("#months-plot").hide();
     $('#subuser').on('submit', function (event) {
         on();
-        $("#result").html('');
-        $("#error").html('');
+        $("#result").hide();
+        $("#error").hide();
         $("#days-plot").html('');
         $("#days-plot").hide();
         $("#months-plot").html('');
         $("#months-plot").hide();
+        $("#last-contrib").text('');
+        $("#repos").text('');
+        $("#tc").text('');
+        $("#name").text('');
+
         $.ajax({
             data: {
                 username: $("#username").val(),
@@ -34,8 +39,8 @@ $(document).ready(function () {
             .done(function (data) {
                 if (data.error) {
                     off();
-                    var show = "<h3>" + data.error + "</h3>"
-                    $("#error").html(show);
+                    $("#error").html(data.error);
+                    $("#error").show();
                 }
                 else {
                     off();
@@ -50,6 +55,15 @@ $(document).ready(function () {
                     $("#tc").text(sing_plu(tc, 'contribution', 'contributions'));
                     // $("#result").html(show);
 
+                    if (data.value.last_contribution) {
+                        var lc = data.value.last_contribution;
+                        $("#last-contrib").text('Last contribution\n' + lc);
+                    }
+                    var td = data.value.total_days
+                    $("#total_days").text('In the last ' + td + ' days');
+
+
+                    $('#result').show();
                 }
                 if (data.days) {
                     if (data.days.flag) {

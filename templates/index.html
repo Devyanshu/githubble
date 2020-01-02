@@ -18,7 +18,7 @@
 <style>
     .showres {
         width: 100%;
-        text-align: center;
+        /* text-align: center; */
         margin-top: 7%;
 
     }
@@ -67,7 +67,7 @@
         border-color: #000 transparent transparent transparent;
     }
 
-    .lds-ring div:nth-child(1) {
+    last-contrib .lds-ring div:nth-child(1) {
         animation-delay: -0.45s;
     }
 
@@ -88,6 +88,10 @@
             transform: rotate(360deg);
         }
     }
+
+    .container {
+        max-width: 80%;
+    }
 </style>
 
 <body>
@@ -104,9 +108,8 @@
         </div>
     </div>
     <div class="container">
-        <div style="text-align: center; margin: 9% 0 9%;">
-            <h1>Githubble</h1>
-        </div>
+        <h1>Githubble</h1>
+
 
         <form id="subuser">
             <div class="row">
@@ -120,22 +123,30 @@
             </div>
         </form>
 
-        <div class="showres">
+        <span id='error' style="text-align: center; font-size: xx-large;"></span>
+        <div class="showres" id='result'>
             <div class='row'>
-                <div class="three columns">
-                    <img id='avatar' height="220" width="220">
+                <div class="two columns">
+                    <img id='avatar' height="200" width="200">
                 </div>
-                <div class="nine columns">
-                    <span id='name'></span>
-                    <span id='repos'></span>
-                    <span id='tc'></span>
+                <div class="seven columns">
+                    <h4 id='name'></h4>
+                    <span id='repos' style="font-size: large;"></span>
+                    <br><span id='tc' style="font-size: large;"></span>
+
+                </div>
+                <div class="three columns">
+                    <span id='last-contrib' style="font-size: large;"></span>
                 </div>
             </div>
+            <div>
+                <h5 id='total_days'></h5>
+            </div>
         </div>
-        <div class="showres" id="error"></div>
-        <div class="row">
-            <div id="days-plot" class="col-md-6"></div>
-            <div id="months-plot" class="col-md-6"></div>
+
+        <div class="row" style='margin-top:10px;'>
+            <div id="days-plot" class="six columns"></div>
+            <div id="months-plot" class="six columns"></div>
         </div>
 
     </div>
