@@ -3,6 +3,7 @@ import bs4 as bs
 import re
 import datetime
 import calendar
+import json
 
 
 class User:
@@ -10,9 +11,14 @@ class User:
     def __init__(self, username):
         self.username = username
         baseUrl = 'https://github.com/'
+        api_url = 'https://api.github.com/users/'
         self.url = baseUrl + self.username
+        self.apiUrl = api_url + self.username
         self.name = None
         self.repoCount = None
+        self.followers = ''
+        self.following = ''
+        self.joined = ''
         self.commits_last_year = 0
         self.avatarUrl = None
         self.top_five_activity = {}
@@ -26,33 +32,24 @@ class User:
         self.repos = {}
 
     def get_details(self):
+        r = urlopen(self.apiUrl).read()
+        apiData = json.loads(r.decode('utf-8'))
+        userType = apiData['type']
+        if userType != 'User':
+            raise NameError('organization account')
+        self.avatarUrl = apiData['avatar_url']
+        self.name = apiData['name']
+        if not self.name:
+            self.name = '(Name not provided)'
+        self.repoCount = apiData['public_repos']
+        self.followers = apiData['followers']
+        self.following = apiData['following']
+        self.joined = '-'.join(apiData['created_at'].split('T')
+                               [0].split('-')[::-1])
+
         content = urlopen(self.url).read()
         data = bs.BeautifulSoup(content, 'lxml')
-        images = data.findAll('img')
-        for img in images:
-            if ("avatar" in img["class"] and img['src'] != ''):
-                self.avatarUrl = img['src']
-                break
-        spans = data.findAll('span')
-        for span in spans:
-            try:
-                if span["itemprop"] == 'name':
-                    self.name = span.text
-            except:
-                continue
-        if self.name is None:
-            raise NameError('enterprise account')
-        if self.name == '':
-            self.name = '(Name not provided)'
-        for span in spans:
-            try:
-                if 'Counter' in span["class"]:
-                    self.repoCount = span.text.strip(
-                        ' ').strip('\n').strip(' ')
-                    # add checks for stars, followers and following here.
-                    break
-            except:
-                continue
+
         h2s = data.findAll('h2')
         for h2 in h2s:
             try:
@@ -196,5 +193,5 @@ class User:
 
 if __name__ == '__main__':
     test = User('Devyanshu')
-    # test.get_details()
-    # test.print_all()
+    test.get_details()
+    test.print_all()
