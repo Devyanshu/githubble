@@ -16,6 +16,7 @@ $(document).ready(function () {
     $("#avatar").hide();
     $("#days-plot").hide();
     $("#months-plot").hide();
+    $("#result").hide();
     $('#subuser').on('submit', function (event) {
         on();
         $("#result").hide();
@@ -26,8 +27,12 @@ $(document).ready(function () {
         $("#months-plot").hide();
         $("#last-contrib").text('');
         $("#repos").text('');
-        $("#tc").text('');
+        $("#day-contributions").text('');
         $("#name").text('');
+        $("#gap").text('');
+        $("#streak").text('');
+        $("#avg_commits").text('');
+        $("#max_activity").text('');
 
         $.ajax({
             data: {
@@ -51,9 +56,11 @@ $(document).ready(function () {
 
                     var repos = data.value.repos;
                     $("#repos").text(sing_plu(repos, 'repository', 'repositories'));
-                    var tc = data.value.total_contribution;
-                    $("#tc").text(sing_plu(tc, 'contribution', 'contributions'));
-                    // $("#result").html(show);
+
+                    const tc = data.value.total_contribution;
+                    const days = data.value.days_contributed;
+                    const txt = sing_plu(tc, 'contribution', 'contributions') + ' in ' + sing_plu(days, 'day', 'days');
+                    $("#day-contributions").text(txt);
 
                     if (data.value.last_contribution) {
                         var lc = data.value.last_contribution;
@@ -62,19 +69,33 @@ $(document).ready(function () {
                     var td = data.value.total_days
                     $("#total_days").text('In the last ' + td + ' days');
 
+                    const gap = data.value.longest_gap;
+                    $("#gap").text('Longest gap of ' + sing_plu(gap, 'day', 'days'));
+
+                    const streak = data.value.longest_streak;
+                    $("#streak").text('Longest streak of ' + streak);
+                    if (data.value.avg_commits) {
+                        var ac = data.value.avg_commits;
+                        $("#avg_commits").text('With average of ' + ac + ' during the longest streak');
+                    }
+                    if (data.value.max_activity) {
+                        const num = data.value.max_activity.num
+                        const act_day = data.value.max_activity.day
+                        $("#max_activity").text('Maximum ' + sing_plu(num, 'contribution', 'contributions') + ' on ' + act_day);
+                    }
 
                     $('#result').show();
                 }
                 if (data.days) {
                     if (data.days.flag) {
-                        $("#days-plot").html('<div><h4 style="text-align: center"> Day wise contributions </h4><div id="data-plot-days"></div></div>')
+                        $("#days-plot").html('<div><h5 style="text-align: center"> Day wise contributions </h5><div id="data-plot-days"></div></div>')
                         $("#days-plot").show();
                         Morris.Bar(data.days.data);
                     }
                 }
                 if (data.months) {
                     if (data.months.flag) {
-                        $("#months-plot").html('<div><h4 style="text-align: center"> Month wise contributions </h4><div id="data-plot-months"></div></div>')
+                        $("#months-plot").html('<div><h5 style="text-align: center"> Month wise contributions </h5><div id="data-plot-months"></div></div>')
                         $("#months-plot").show();
                         Morris.Bar(data.months.data);
                     }
