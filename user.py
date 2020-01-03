@@ -32,23 +32,58 @@ class User:
         self.repos = {}
 
     def get_details(self):
-        r = urlopen(self.apiUrl).read()
-        apiData = json.loads(r.decode('utf-8'))
-        userType = apiData['type']
-        if userType != 'User':
-            raise NameError('organization account')
-        self.avatarUrl = apiData['avatar_url']
-        self.name = apiData['name']
-        if not self.name:
-            self.name = '(Name not provided)'
-        self.repoCount = apiData['public_repos']
-        self.followers = apiData['followers']
-        self.following = apiData['following']
-        self.joined = '-'.join(apiData['created_at'].split('T')
-                               [0].split('-')[::-1])
+        flag = False
+        try:
+            r = urlopen(self.apiUrl).read()
+            apiData = json.loads(r.decode('utf-8'))
+        except:
+            flag = True
+        else:
+            userType = apiData['type']
+            if userType != 'User':
+                raise NameError('organization account')
+            self.avatarUrl = apiData['avatar_url']
+            self.name = apiData['name']
+            if not self.name:
+                self.name = '(Name not provided)'
+            self.repoCount = apiData['public_repos']
+            self.followers = apiData['followers']
+            self.following = apiData['following']
+            self.joined = '-'.join(apiData['created_at'].split('T')
+                                   [0].split('-')[::-1])
 
         content = urlopen(self.url).read()
         data = bs.BeautifulSoup(content, 'lxml')
+
+        if flag:
+
+            images = data.findAll('img')
+            for img in images:
+                if ("avatar" in img["class"] and img['src'] != ''):
+                    self.avatarUrl = img['src']
+                    break
+
+            spans = data.findAll('span')
+            for span in spans:
+                try:
+                    if span["itemprop"] == 'name':
+                        self.name = span.text
+                except:
+                    continue
+            if self.name is None:
+                raise NameError('enterprise account')
+            if self.name == '':
+                self.name = '(Name not provided)'
+
+            for span in spans:
+                try:
+                    if 'Counter' in span["class"]:
+                        self.repoCount = span.text.strip(
+                            ' ').strip('\n').strip(' ')
+                        # add checks for stars, followers and following here.
+                        break
+                except:
+                    continue
 
         h2s = data.findAll('h2')
         for h2 in h2s:
