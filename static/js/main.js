@@ -36,7 +36,7 @@ $(document).ready(function () {
         $("#joined").text('');
         $("#follwers").text('');
         $("#following").text('');
-
+        $('#social_stats').hide();
         $.ajax({
             data: {
                 username: $("#username").val(),
@@ -86,9 +86,13 @@ $(document).ready(function () {
                         const act_day = data.value.max_activity.day
                         $("#max_activity").text('Maximum ' + sing_plu(num, 'contribution', 'contributions') + ' on ' + act_day);
                     }
-                    $("#joined").text('Joined Github on ' + data.value.joined);
-                    $("#followers").text(data.value.followers + ' followers');
-                    $("#following").text(data.value.following + ' following');
+                    if (data.value.joined)
+                        $("#joined").text('Joined Github on ' + data.value.joined);
+                    if (data.value.followers && data.value.following) {
+                        $("#followers").text(data.value.followers + ' followers');
+                        $("#following").text(data.value.following + ' following');
+                        $('#social_stats').show();
+                    }
                     $('#result').show();
                 }
                 if (data.days) {

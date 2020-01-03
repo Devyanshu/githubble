@@ -20,9 +20,13 @@ def helper(user_ob):
             user_ob.longest_streak['start'], user_ob.longest_streak['end'])
 
     dct['name'] = user_ob.name
-    dct['joined'] = user_ob.joined
-    dct['followers'] = user_ob.followers
-    dct['following'] = user_ob.following
+    if user_ob.joined:
+        dct['joined'] = user_ob.joined
+    if user_ob.followers:
+        dct['followers'] = user_ob.followers
+    if user_ob.following:
+        dct['following'] = user_ob.following
+
     dct['avatar'] = user_ob.avatarUrl
     dct['repos'] = user_ob.repoCount
     dct['total_days'] = total_days
