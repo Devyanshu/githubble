@@ -25,6 +25,8 @@ $(document).ready(function () {
         $("#days-plot").hide();
         $("#months-plot").html('');
         $("#months-plot").hide();
+        $("#streak-plot").html('');
+        $("#streak-plot").hide();
         $("#last-contrib").text('');
         $("#repos").text('');
         $("#day-contributions").text('');
@@ -110,8 +112,17 @@ $(document).ready(function () {
                         Morris.Bar(data.months.data);
                     }
                 }
+                if (data.streak) {
+                    if (data.streak.flag) {
+                        $("#streak-plot").html('<div><h5 style="text-align: center"> Contributions during longest streak </h5><div id="data-plot-longest_streak"></div></div>')
+                        $("#streak-plot").show();
+                        Morris.Bar(data.streak.data);
+                    }
+                }
             });
 
         event.preventDefault();
     });
 });
+
+data - plot - longest_streak

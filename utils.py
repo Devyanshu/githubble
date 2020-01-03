@@ -111,5 +111,33 @@ def get_monthwise(user_ob):
     return {'data': dct, 'flag': flag}
 
 
+def get_longest_streak_values(user_ob):
+    lst = []
+    flag = False
+    temp = user_ob.longest_streak['daywise']
+    if len(temp) >= 5:
+        flag = True
+
+    for ii in temp:
+        lst.append({
+            'value': temp[ii],
+            'day': '/'.join(ii.split('-')[::-1][:-1])
+        })
+
+    dct = {
+        'element': 'data-plot-longest_streak',
+        'data': lst,
+        'xkey': 'day',
+        'ykeys': ['value'],
+        # 'labels': list(temp.keys()),
+        'barColors': ['#000000'],
+        'hideHover': 'auto',
+        'gridLineColor: '  # eef0f2',
+        'lineWidth': 1,
+        'resize': 'true'
+    }
+    return {'data': dct, 'flag': flag}
+
+
 if __name__ == "__main__":
     pass
