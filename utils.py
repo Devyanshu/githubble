@@ -27,6 +27,7 @@ def helper(user_ob):
     if user_ob.following:
         dct['following'] = user_ob.following
 
+    dct['profileUrl'] = user_ob.url
     dct['avatar'] = user_ob.avatarUrl
     dct['repos'] = user_ob.repoCount
     dct['total_days'] = total_days

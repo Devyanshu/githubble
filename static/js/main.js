@@ -52,9 +52,9 @@ $(document).ready(function () {
                 }
                 else {
                     off();
-                    var show = data.value;
                     $("#avatar").attr("src", data.value.avatar);
-                    $("#avatar").show();
+                    $("#profileUrl").attr("href", data.value.profileUrl);
+
                     $("#name").text(data.value.name);
 
                     var repos = data.value.repos;
@@ -79,7 +79,7 @@ $(document).ready(function () {
                     $("#streak").text('Longest streak of ' + streak);
                     if (data.value.avg_commits) {
                         var ac = data.value.avg_commits;
-                        $("#avg_commits").text('With average of ' + ac + ' during the longest streak');
+                        $("#avg_commits").text('with average of ' + ac);
                     }
                     if (data.value.max_activity) {
                         const num = data.value.max_activity.num
@@ -89,11 +89,12 @@ $(document).ready(function () {
                     if (data.value.joined)
                         $("#joined").text('Joined Github on ' + data.value.joined);
                     if (data.value.followers && data.value.following) {
-                        $("#followers").text(data.value.followers + ' followers');
-                        $("#following").text(data.value.following + ' following');
+                        $("#followers").text(sing_plu(data.value.followers, 'follower', 'followers'));
+                        $("#following").text(sing_plu(data.value.following, 'following', 'following'));
                         $('#social_stats').show();
                     }
                     $('#result').show();
+                    $("#avatar").show();
                 }
                 if (data.days) {
                     if (data.days.flag) {
