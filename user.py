@@ -134,12 +134,15 @@ class User:
     def find_longest_gap(self, activity):
         max_gap = 0
         curr_gap = 0
+        prev_gap = 0
         for ii in activity:
             if not activity[ii]:
                 curr_gap += 1
             else:
                 max_gap = max(max_gap, curr_gap)
                 curr_gap = 0
+            prev_gap = curr_gap
+        max_gap = max(max_gap, prev_gap)
         self.longest_gap = max_gap
 
     def find_longest_streak(self, activity):
