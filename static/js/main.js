@@ -124,5 +124,3 @@ $(document).ready(function () {
         event.preventDefault();
     });
 });
-
-data - plot - longest_streak
