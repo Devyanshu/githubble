@@ -6,9 +6,11 @@ import tempdata
 class Repos:
     def __init__(self, username):
         self.username = username
-        self.url = 'https://api.github.com/users/' + self.username + '/repos'
+        self.url = 'https://api.github.com/users/' + \
+            self.username + '/repos?page=1&per_page=100'
         self.repos = {}
         self.data = {}
+        self.language_names = set()
         self.all_languages = {}
         self.non_fork_languages = {}
         self.own_language_frequency = {}
@@ -17,17 +19,16 @@ class Repos:
         self.non_forks = 0
 
     def _get_data(self):
-        # r = urlopen(self.url).read()
-        # self.data = json.loads(r.decode('utf-8'))
+        r = urlopen(self.url).read()
+        self.data = json.loads(r.decode('utf-8'))
         # reading from a cache for testing
-        self.data = tempdata.data
+        # self.data = tempdata.data
 
     def get_repos_info(self):
         self._get_data()
         stars = 0
         forks = 0
         non_forks = 0
-
         for repo in self.data:
             self.repos[repo['name']] = {
                 'created': repo['created_at'],
@@ -37,6 +38,7 @@ class Repos:
                 'watchers': repo['watchers'],
                 'forks': repo['forks']
             }
+            self.language_names.add(repo['language'])
             if not repo['fork']:
                 stars += repo['stargazers_count']
                 non_forks += 1

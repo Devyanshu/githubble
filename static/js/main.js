@@ -42,6 +42,7 @@ $(document).ready(function () {
         $('#social_stats').hide();
         $('#fnf').hide();
         $('#ogs').hide();
+        $('#langc').hide();
         $('#repo_info').hide();
 
         $.ajax({
@@ -132,6 +133,8 @@ $(document).ready(function () {
                     $('#fnf').show();
                     $('#ogs').text(data.repo.og_stars + ' total stars in original repositories');
                     $('#ogs').show();
+                    $('#langc').text(data.repo.lang_count + ' languages used');
+                    $('#langc').show();
 
 
                 }
