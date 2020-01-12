@@ -139,5 +139,14 @@ def get_longest_streak_values(user_ob):
     return {'data': dct, 'flag': flag}
 
 
+def repo_helper(repo_ob):
+    dct = {}
+    dct['forks'] = repo_ob.forks
+    dct['non_forks'] = repo_ob.non_forks
+    dct['og_stars'] = repo_ob.total_stars
+
+    return dct
+
+
 if __name__ == "__main__":
     pass

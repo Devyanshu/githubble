@@ -17,6 +17,7 @@ $(document).ready(function () {
     $("#days-plot").hide();
     $("#months-plot").hide();
     $("#result").hide();
+    $("#fnf").hide();
     $('#subuser').on('submit', function (event) {
         on();
         $("#result").hide();
@@ -39,6 +40,10 @@ $(document).ready(function () {
         $("#follwers").text('');
         $("#following").text('');
         $('#social_stats').hide();
+        $('#fnf').hide();
+        $('#ogs').hide();
+        $('#repo_info').hide();
+
         $.ajax({
             data: {
                 username: $("#username").val(),
@@ -96,6 +101,7 @@ $(document).ready(function () {
                         $('#social_stats').show();
                     }
                     $('#result').show();
+                    $('#profileUrl').show();
                     $("#avatar").show();
                 }
                 if (data.days) {
@@ -118,6 +124,16 @@ $(document).ready(function () {
                         $("#streak-plot").show();
                         Morris.Bar(data.streak.data);
                     }
+                }
+                if (data.repo) {
+                    $('#repo_info').show();
+                    const fnf = data.repo.forks + ' original and ' + data.repo.non_forks + ' forked repos'
+                    $('#fnf').text(fnf);
+                    $('#fnf').show();
+                    $('#ogs').text(data.repo.og_stars + ' total stars in original repositories');
+                    $('#ogs').show();
+
+
                 }
             });
 
