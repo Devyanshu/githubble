@@ -145,6 +145,7 @@ def repo_helper(repo_ob):
     dct['non_forks'] = repo_ob.non_forks
     dct['og_stars'] = repo_ob.total_stars
     dct['lang_count'] = len(repo_ob.language_names)
+    dct['langs'] = ', '.join(repo_ob.language_names)
 
     return dct
 

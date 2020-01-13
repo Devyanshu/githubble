@@ -133,8 +133,10 @@ $(document).ready(function () {
                     $('#fnf').show();
                     $('#ogs').text(data.repo.og_stars + ' total stars in original repositories');
                     $('#ogs').show();
-                    $('#langc').text(data.repo.lang_count + ' languages used');
+                    $('#langc').text(sing_plu(data.repo.lang_count, 'language', 'languages') + ' used');
                     $('#langc').show();
+                    $('#langs').text(data.repo.langs);
+
 
 
                 }

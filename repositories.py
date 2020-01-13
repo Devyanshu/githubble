@@ -26,6 +26,7 @@ class Repos:
 
     def get_repos_info(self):
         self._get_data()
+        langs = set()
         stars = 0
         forks = 0
         non_forks = 0
@@ -38,13 +39,14 @@ class Repos:
                 'watchers': repo['watchers'],
                 'forks': repo['forks']
             }
-            self.language_names.add(repo['language'])
+            if repo['language']:
+                langs.add(repo['language'])
             if not repo['fork']:
                 stars += repo['stargazers_count']
                 non_forks += 1
             else:
                 forks += 1
-
+        self.language_names = list(langs)
         self.total_stars = stars
         self.forks = forks
         self.non_forks = non_forks
