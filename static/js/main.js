@@ -44,6 +44,10 @@ $(document).ready(function () {
         $('#ogs').hide();
         $('#langc').hide();
         $('#repo_info').hide();
+        $('#langs').html('');
+        $('#langs').hide();
+        $('#showb').hide();
+
 
         $.ajax({
             data: {
@@ -135,8 +139,8 @@ $(document).ready(function () {
                     $('#ogs').show();
                     $('#langc').text(sing_plu(data.repo.lang_count, 'language', 'languages') + ' used');
                     $('#langc').show();
-                    $('#langs').text(data.repo.langs);
-
+                    $('#langs').html(data.repo.langs);
+                    $('#showb').show();
 
 
                 }
@@ -145,3 +149,7 @@ $(document).ready(function () {
         event.preventDefault();
     });
 });
+
+function show_lang() {
+    $('#langs').toggle();
+}
