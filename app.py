@@ -18,10 +18,10 @@ def home():
 def process():
     data = dict(request.form)
     usr = User(data['username'])
-    repo = Repos(data['username'])
     # usr.get_details()
     try:
         usr.get_details()
+        repo = Repos(data['username'], usr.repoCount)
         repo.get_repos_info()
     except NameError:
         return {'error': 'Organization accounts \

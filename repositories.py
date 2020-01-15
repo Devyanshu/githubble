@@ -4,10 +4,10 @@ import tempdata
 
 
 class Repos:
-    def __init__(self, username):
+    def __init__(self, username, repo_count):
+        self.repo_count = repo_count
         self.username = username
-        self.url = 'https://api.github.com/users/' + \
-            self.username + '/repos?page=1&per_page=100'
+        self.url = ''
         self.repos = {}
         self.data = {}
         self.language_names = set()
@@ -18,11 +18,28 @@ class Repos:
         self.forks = 0
         self.non_forks = 0
 
+    def _get_url(self, page, repos):
+        return 'https://api.github.com/users/' + \
+            self.username + \
+            '/repos?page={}&per_page={}'.format(str(page),
+                                                str(repos))
+
     def _get_data(self):
+        if self.repo_count <= 100:
+            self.url = self._get_url(1, self.repo_count)
         r = urlopen(self.url).read()
         self.data = json.loads(r.decode('utf-8'))
-        # reading from a cache for testing
-        # self.data = tempdata.data
+        if self.repo_count > 100:
+            page = 2
+            remaining_repo = self.repo_count - 100
+            while True:
+                url = self._get_url(page, remaining_repo)
+                r = urlopen(url).read()
+                self.data += json.loads(r.decode('utf-8'))
+                page += 1
+                remaining_repo -= 100
+                if remaining_repo <= 0:
+                    break
 
     def get_repos_info(self):
         self._get_data()
