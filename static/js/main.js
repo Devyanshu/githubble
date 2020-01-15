@@ -47,6 +47,7 @@ $(document).ready(function () {
         $('#langs').html('');
         $('#langs').hide();
         $('#showb').hide();
+        $("#streak-div").hide();
 
 
         $.ajax({
@@ -127,6 +128,7 @@ $(document).ready(function () {
                     if (data.streak.flag) {
                         $("#streak-plot").html('<div><h5 style="text-align: center"> Contributions during longest streak </h5><div id="data-plot-longest_streak"></div></div>')
                         $("#streak-plot").show();
+                        $("#streak-div").show();
                         Morris.Bar(data.streak.data);
                     }
                 }
