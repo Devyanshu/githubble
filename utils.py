@@ -52,6 +52,9 @@ def helper(user_ob):
             'day': max_activity_day
         }
 
+    dct['total_lc'] = user_ob.longest_streak['total']
+    dct['max_lc'] = user_ob.longest_streak['max_contribution']['val']
+
     return dct
 
 

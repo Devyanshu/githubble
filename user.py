@@ -168,11 +168,15 @@ class User:
             streak_end = keys[keys.index(streak_end)]
             streak_sum = sum(list(activity.values())[
                 keys.index(streak_start):keys.index(streak_end)+1])
+            max_c = max(list(activity.values())[
+                keys.index(streak_start):keys.index(streak_end)+1])
         else:
             keys = list(activity.keys())
             streak_start = keys[keys.index(streak_end) - l_streak]
             streak_end = keys[keys.index(streak_end)-1]
             streak_sum = sum(list(activity.values())[
+                keys.index(streak_start):keys.index(streak_end)+1])
+            max_c = max(list(activity.values())[
                 keys.index(streak_start):keys.index(streak_end)+1])
 
         day_wise_streak = {}
@@ -186,7 +190,12 @@ class User:
             'avg_commits': 0 if l_streak == 0 else round(streak_sum/l_streak, 2),
             'start': "-".join(streak_start.split('-')[::-1]),
             'end': "-".join(streak_end.split('-')[::-1]),
-            'daywise': day_wise_streak
+            'daywise': day_wise_streak,
+            'total': streak_sum,
+            'max_contribution': {
+                'val': max_c,
+                'day': ''
+            },
         }
 
     def find_last_contribution(self, activity):
