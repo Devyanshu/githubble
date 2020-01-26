@@ -130,6 +130,8 @@ $(document).ready(function () {
                         $("#streak-plot").show();
                         $("#streak-div").show();
                         Morris.Bar(data.streak.data);
+                        $("#tot_streak").text(data.value.total_lc + ' contributions during streak');
+                        $("#maxc_streak").text('Maximum ' + data.value.max_lc + ' contributions during streak');
                     }
                 }
                 if (data.repo) {
