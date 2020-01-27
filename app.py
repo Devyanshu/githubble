@@ -14,6 +14,13 @@ def home():
     return render_template('index.html')
 
 
+@app.route("/u/<username>")
+def fromurl(username):
+    print(username)
+
+    return render_template('index.html')
+
+
 @app.route("/data", methods=['POST'])
 def process():
     data = dict(request.form)
