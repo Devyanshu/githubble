@@ -8,4 +8,4 @@ Jinja2==2.11.3
 lxml==4.9.1
 MarkupSafe==1.1.1
 soupsieve==1.9.5
-Werkzeug==0.16.0
+Werkzeug==2.2.3
